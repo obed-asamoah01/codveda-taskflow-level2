@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskFlow | Task Manager</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         AUTH VIEW  — shown when no token exists in localStorage.
+         Contains two sub-panels: Login and Register.  Only one is
+         visible at a time; a toggle link swaps between them.
+    ════════════════════════════════════════════════════════════════ -->
+    <div id="auth-view" class="task-card auth-card" hidden>
+
+      <header>
+        <p class="eyebrow">STAY ORGANIZED</p>
+        <h1>TaskFlow</h1>
+        <p class="subtitle">Sign in to keep your tasks moving.</p>
+      </header>
+
+      <!-- ── LOGIN PANEL ───────────────────────────────────────────── -->
+      <section id="login-panel" class="auth-panel">
+        <h2 class="auth-heading">Welcome back</h2>
+
+        <form id="login-form" novalidate>
+          <label class="form-label" for="login-email">Email address</label>
+          <input id="login-email" name="email" type="email"
+                 placeholder="you@example.com" autocomplete="email" required />
+
+          <label class="form-label" for="login-password">Password</label>
+          <input id="login-password" name="password" type="password"
+                 placeholder="Your password" autocomplete="current-password" required />
+
+          <!-- Inline error shown on failed login; hidden until needed -->
+          <p id="login-error" class="auth-error" role="alert" hidden></p>
+
+          <button type="submit" class="auth-submit-btn">Log in</button>
+        </form>
+
+        <p class="auth-toggle-text">
+          Don't have an account?
+          <button type="button" id="show-register" class="toggle-link">Register</button>
+        </p>
+      </section><!-- /#login-panel -->
+
+      <!-- ── REGISTER PANEL ────────────────────────────────────────── -->
+      <section id="register-panel" class="auth-panel" hidden>
+        <h2 class="auth-heading">Create an account</h2>
+
+        <form id="register-form" novalidate>
+          <label class="form-label" for="reg-name">Full name</label>
+          <input id="reg-name" name="name" type="text"
+                 placeholder="Jane Doe" autocomplete="name" required />
+
+          <label class="form-label" for="reg-email">Email address</label>
+          <input id="reg-email" name="email" type="email"
+                 placeholder="you@example.com" autocomplete="email" required />
+
+          <label class="form-label" for="reg-password">Password</label>
+          <input id="reg-password" name="password" type="password"
+                 placeholder="Choose a strong password" autocomplete="new-password" required />
+
+          <!-- Inline error shown on failed registration -->
+          <p id="register-error" class="auth-error" role="alert" hidden></p>
+
+          <button type="submit" class="auth-submit-btn">Create account</button>
+        </form>
+
+        <p class="auth-toggle-text">
+          Already have an account?
+          <button type="button" id="show-login" class="toggle-link">Log in</button>
+        </p>
+      </section><!-- /#register-panel -->
+
+    </div><!-- /#auth-view -->
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         TASK-MANAGER VIEW  — shown only after a successful login.
+         Hidden on first page load; revealed by app.js once a valid
+         token is found in localStorage.
+    ════════════════════════════════════════════════════════════════ -->
+    <main id="app-view" class="task-card" hidden>
+
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">STAY ORGANIZED</p>
+          <h1>TaskFlow</h1>
+          <!-- app.js fills in the logged-in user's name here -->
+          <p class="subtitle">Hello, <span id="user-greeting"></span>! Keep those tasks moving.</p>
+        </div>
+        <!-- Clears the token and returns to the auth view -->
+        <button type="button" id="logout-btn" class="logout-btn">Log out</button>
+      </header>
+
+      <!-- JavaScript sends this title to the REST API. -->
+      <form id="task-form">
+        <label class="sr-only" for="task-title">New task title</label>
+        <input id="task-title" name="title" type="text"
+               placeholder="What needs to be done?" required />
+        <button type="submit">Add task</button>
+      </form>
+
+      <!-- General API feedback (loading, errors) -->
+      <p id="status-message" class="status-message" aria-live="polite"></p>
+
+      <ul id="task-list" class="task-list" aria-label="Task list"></ul>
+
+    </main><!-- /#app-view -->
+
+    <script src="app.js"></script>
+  </body>
+</html>
